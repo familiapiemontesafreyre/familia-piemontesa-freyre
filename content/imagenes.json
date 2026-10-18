@@ -1,32 +1,116 @@
 {
   "claves": {
-    "piemonte-freyre-hero": { "desc": "Portada del inicio: la foto grande que abre toda la pagina", "url": null },
-    "archivo-documentos": { "desc": "Inicio: tarjeta que lleva al Archivo digital", "url": null },
-    "videos-familia": { "desc": "Inicio: tarjeta que lleva a la seccion Videos", "url": null },
-    "origenes-piamonte": { "desc": "Origenes: la foto grande de portada", "url": null },
-    "origenes-cta-cronicas": { "desc": "Origenes: tarjeta que lleva a Cronicas", "url": null },
-    "origenes-cta-archivo": { "desc": "Origenes: tarjeta que lleva al Archivo", "url": null },
-    "cronicas-portada": { "desc": "Cronicas: la foto grande de portada", "url": null },
-    "cronica-piamonte": { "desc": "Cronica 'Raices en la pampa gringa' (tambien sale en las tarjetas de otras paginas)", "url": null },
-    "cronica-cocina": { "desc": "Cronica 'La mesa larga'", "url": null },
-    "cronica-freyre": { "desc": "Cronica 'El valle que dejaron atras'", "url": null },
-    "album-portada": { "desc": "Memorias: la foto grande de portada", "url": null },
-    "memoria-01": { "desc": "Album de memorias: foto 1", "url": null },
-    "memoria-03": { "desc": "Album de memorias: foto 2", "url": null },
-    "memoria-04": { "desc": "Album de memorias: foto 3", "url": null },
-    "memoria-06": { "desc": "Album de memorias: foto 4", "url": null },
-    "memoria-07": { "desc": "Album de memorias: foto 5", "url": null },
-    "memoria-09": { "desc": "Album de memorias: foto 6", "url": null },
-    "memoria-10": { "desc": "Album de memorias: foto 7", "url": null },
-    "memoria-12": { "desc": "Album de memorias: foto 8", "url": null },
-    "archivo-portada": { "desc": "Archivo: la foto grande de portada", "url": null },
-    "videos-portada": { "desc": "Videos: la foto grande de portada", "url": null },
-    "video-campo": { "desc": "Videos: miniatura 1 (campo/trabajo)", "url": null },
-    "video-casa": { "desc": "Videos: miniatura 2 (casa/vida diaria)", "url": null },
-    "video-entrevista-abuela": { "desc": "Videos: miniatura 3 (apunta a una entrevista a la abuela)", "url": null },
-    "video-fiesta": { "desc": "Videos: miniatura 4 (fiestas/reuniones)", "url": null },
-    "video-mayores": { "desc": "Videos: miniatura 5 (los mayores)", "url": null },
-    "video-oficio": { "desc": "Videos: miniatura 6 (oficios)", "url": null },
-    "piemonte-freyre-portada": { "desc": "Portada del sitio (solo se ve al compartir el link; opcional)", "url": null }
+    "piemonte-freyre-hero": {
+      "desc": "Portada del inicio: la foto grande que abre toda la pagina",
+      "url": null
+    },
+    "archivo-documentos": {
+      "desc": "Inicio: tarjeta que lleva al Archivo digital",
+      "url": null
+    },
+    "videos-familia": {
+      "desc": "Inicio: tarjeta que lleva a la seccion Videos",
+      "url": null
+    },
+    "origenes-piamonte": {
+      "desc": "Origenes: la foto grande de portada",
+      "url": null
+    },
+    "origenes-cta-cronicas": {
+      "desc": "Origenes: tarjeta que lleva a Cronicas",
+      "url": null
+    },
+    "origenes-cta-archivo": {
+      "desc": "Origenes: tarjeta que lleva al Archivo",
+      "url": null
+    },
+    "cronicas-portada": {
+      "desc": "Cronicas: la foto grande de portada",
+      "url": null
+    },
+    "cronica-piamonte": {
+      "desc": "Cronica 'Raices en la pampa gringa' (tambien sale en las tarjetas de otras paginas)",
+      "url": null
+    },
+    "cronica-cocina": {
+      "desc": "Cronica 'La mesa larga'",
+      "url": null
+    },
+    "cronica-freyre": {
+      "desc": "Cronica 'El valle que dejaron atras'",
+      "url": null
+    },
+    "album-portada": {
+      "desc": "Memorias: la foto grande de portada",
+      "url": null
+    },
+    "memoria-01": {
+      "desc": "Album de memorias: foto 1",
+      "url": "https://familiapiemontesafreyre.github.io/familia-piemontesa-freyre/images/memoria-01.jpg"
+    },
+    "memoria-03": {
+      "desc": "Album de memorias: foto 2",
+      "url": null
+    },
+    "memoria-04": {
+      "desc": "Album de memorias: foto 3",
+      "url": null
+    },
+    "memoria-06": {
+      "desc": "Album de memorias: foto 4",
+      "url": null
+    },
+    "memoria-07": {
+      "desc": "Album de memorias: foto 5",
+      "url": null
+    },
+    "memoria-09": {
+      "desc": "Album de memorias: foto 6",
+      "url": null
+    },
+    "memoria-10": {
+      "desc": "Album de memorias: foto 7",
+      "url": null
+    },
+    "memoria-12": {
+      "desc": "Album de memorias: foto 8",
+      "url": null
+    },
+    "archivo-portada": {
+      "desc": "Archivo: la foto grande de portada",
+      "url": null
+    },
+    "videos-portada": {
+      "desc": "Videos: la foto grande de portada",
+      "url": null
+    },
+    "video-campo": {
+      "desc": "Videos: miniatura 1 (campo/trabajo)",
+      "url": null
+    },
+    "video-casa": {
+      "desc": "Videos: miniatura 2 (casa/vida diaria)",
+      "url": null
+    },
+    "video-entrevista-abuela": {
+      "desc": "Videos: miniatura 3 (apunta a una entrevista a la abuela)",
+      "url": null
+    },
+    "video-fiesta": {
+      "desc": "Videos: miniatura 4 (fiestas/reuniones)",
+      "url": null
+    },
+    "video-mayores": {
+      "desc": "Videos: miniatura 5 (los mayores)",
+      "url": null
+    },
+    "video-oficio": {
+      "desc": "Videos: miniatura 6 (oficios)",
+      "url": null
+    },
+    "piemonte-freyre-portada": {
+      "desc": "Portada del sitio (solo se ve al compartir el link; opcional)",
+      "url": null
+    }
   }
 }
