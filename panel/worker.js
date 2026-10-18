@@ -74,14 +74,14 @@ async function ghGetJson(env) {
   return await r.json();
 }
 
-async function ghGetMetaYContenido(env) {
+async function ghGetMetaYContenido(env, ruta) {
   const ghHeaders = {
     authorization: `Bearer ${env.GITHUB_TOKEN}`,
     accept: "application/vnd.github+json",
     "user-agent": "familia-piemontesa-panel"
   };
   const r = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH_JSON}?ref=${BRANCH}`,
+    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${ruta || PATH_JSON}?ref=${BRANCH}`,
     { headers: ghHeaders });
   if (r.status === 404) return { data: { posts: [] }, sha: undefined };
   const j = await r.json();
@@ -104,6 +104,78 @@ async function ghPutJson(env, data, sha, mensaje) {
     `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH_JSON}`,
     { method: "PUT", headers: ghHeaders, body: JSON.stringify(body) });
   return r.ok;
+}
+
+async function ghPutBinario(env, ruta, b64, mensaje) {
+  const ghHeaders = {
+    authorization: `Bearer ${env.GITHUB_TOKEN}`,
+    accept: "application/vnd.github+json",
+    "user-agent": "familia-piemontesa-panel"
+  };
+  let sha;
+  const rExiste = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${ruta}?ref=${BRANCH}`, { headers: ghHeaders });
+  if (rExiste.ok) sha = (await rExiste.json()).sha;
+  const body = { message: mensaje, branch: BRANCH, content: b64 };
+  if (sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${ruta}`,
+    { method: "PUT", headers: ghHeaders, body: JSON.stringify(body) });
+  return { ok: r.ok, codigo: r.status };
+}
+
+async function ghGetImagenes(env) {
+  const r = await fetch(`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/content/imagenes.json`, {
+    headers: { "user-agent": "familia-piemontesa-panel" }, cf: { cacheTtl: 0 }
+  });
+  if (!r.ok) return { claves: {} };
+  return await r.json();
+}
+
+async function ghPutImagenes(env, data, sha, mensaje) {
+  const ghHeaders = {
+    authorization: `Bearer ${env.GITHUB_TOKEN}`,
+    accept: "application/vnd.github+json",
+    "user-agent": "familia-piemontesa-panel"
+  };
+  const body = {
+    message: mensaje,
+    branch: BRANCH,
+    content: btoa(new TextEncoder().encode(JSON.stringify(data, null, 2) + "\n").reduce((s, c) => s + String.fromCharCode(c), ""))
+  };
+  if (sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/content/imagenes.json`,
+    { method: "PUT", headers: ghHeaders, body: JSON.stringify(body) });
+  return r.ok;
+}
+
+async function manejarImagenes(request, env) {
+  if (request.method === "GET") return jsonResp(await ghGetImagenes(env));
+
+  const token = await verificar((request.headers.get("authorization") || "").replace("Bearer ", ""), env.TOKEN_SECRET);
+  if (!token) return jsonResp({ error: "sesion_invalida" }, 401);
+
+  const cuerpo = await request.json();
+  const clave = (cuerpo.clave || "").trim();
+  if (!clave) return jsonResp({ error: "falta_clave" }, 400);
+
+  let datos, sha;
+  try {
+    ({ data, sha } = await ghGetMetaYContenido(env, "content/imagenes.json"));
+  } catch { return jsonResp({ error: "no_se_pudo_leer_catalogo" }, 500); }
+  if (!datos.claves || !(clave in datos.claves)) return jsonResp({ error: "clave_desconocida" }, 400);
+
+  let urlFoto = null;
+  if (cuerpo.dataB64) {
+    const ruta = `images/${clave}.jpg`;
+    const rBin = await ghPutBinario(env, ruta, cuerpo.dataB64, `panel: foto nueva para ${clave}`);
+    if (!rBin.ok) return jsonResp({ error: "commit_foto_fallido", codigo: rBin.codigo }, 500);
+    urlFoto = `https://familiapiemontesafreyre.github.io/familia-piemontesa-freyre/${ruta}`;
+  } else if (cuerpo.url && /^https:\/\//.test(cuerpo.url)) {
+    urlFoto = cuerpo.url;
+  }
+
+  datos.claves[clave].url = urlFoto;
+  const ok = await ghPutImagenes(env, datos, sha, `panel: imagen "${clave}" ${urlFoto ? "actualizada" : "restaurada al total"}`);
+  return ok ? jsonResp({ ok: true, clave, url: urlFoto }) : jsonResp({ error: "commit_fallido" }, 500);
 }
 
 async function manejarPosts(request, env) {
@@ -140,6 +212,7 @@ const app = {
 
     if (ruta === "/health") return jsonResp({ ok: true });
     if (ruta === "/posts") return manejarPosts(request, env);
+    if (ruta === "/imagenes") return manejarImagenes(request, env);
     if (ruta === "/login" && request.method === "POST") {
       const { user, pass } = await request.json();
       if (user !== env.PANEL_USER || pass !== env.PANEL_PASS) return jsonResp({ error: "credenciales_invalidas" }, 401);
