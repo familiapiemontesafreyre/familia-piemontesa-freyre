@@ -1,0 +1,8 @@
+name = "panel-familia-piemontesa"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+account_id = "95ac4484a73577f7fea143dc27d260a8"
+
+[vars]
+OWNER = "familiapiemontesafreyre"
+REPO = "familia-piemontesa-freyre"

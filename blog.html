@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog de la familia — Familia Piemontesa de Freyre</title>
+  <meta name="description" content="Entradas y novedades de la familia piemontesa de Freyre: recuerdos, fotos y noticias de la familia.">
+  <meta name="theme-color" content="#FBFBFA">
+  <meta name="color-scheme" content="light">
+  <link rel="canonical" href="./blog.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231D1D1F'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23FBFBFA' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>tailwind.config={theme:{extend:{colors:{base:'#FBFBFA',surface:'#F5F3EE',sand:'#EDE9E1',ink:{DEFAULT:'#1D1D1F',soft:'#4A4A4E'},muted:'#6E6E73',faint:'#9A9A9E',hair:'#E4E1DA',olive:{DEFAULT:'#6E7051',deep:'#585A40'},steel:'#46586A'}}}};</script>
+  <link rel="stylesheet" href="assets/css/sitio.css">
+</head>
+<body class="bg-base text-ink antialiased">
+
+  <header class="fixed inset-x-0 top-0 z-50 pointer-events-none">
+    <div class="shell pt-4 md:pt-5">
+      <nav data-nav class="nav-shell pointer-events-auto flex items-center justify-between gap-4 rounded-full px-3.5 py-2.5 sm:px-5">
+        <a href="index.html" class="flex items-center gap-3 rounded-full pl-1 pr-2 py-1 shrink-0" aria-label="Inicio">
+          <span class="grid h-9 w-9 place-items-center rounded-full border" style="border-color: var(--nav-borde)">
+            <span class="serif text-[15px] leading-none" style="color: var(--nav-fg-strong)">P</span>
+          </span>
+          <span class="hidden leading-tight sm:block">
+            <span class="block text-[13.5px] font-medium tracking-[-0.01em]" style="color: var(--nav-fg-strong)">Familia Piemontesa</span>
+            <span class="block text-[10.5px] uppercase tracking-[0.16em]" style="color: var(--nav-fg)">de Freyre</span>
+          </span>
+        </a>
+        <ul class="hidden lg:flex items-center gap-5 xl:gap-7 text-[13.5px]">
+          <li><a class="nav-link" href="index.html">Inicio</a></li>
+          <li><a class="nav-link" href="cronicas.html">Crónicas</a></li>
+          <li><a class="nav-link" href="blog.html" aria-current="page">Blog</a></li>
+          <li><a class="nav-link" href="archivo.html">Archivo</a></li>
+        </ul>
+        <div class="flex items-center gap-2 shrink-0">
+          <button data-menu-btn type="button" aria-expanded="false" aria-controls="menu-movil"
+                  class="lg:hidden grid h-10 w-10 place-items-center rounded-full border"
+                  style="border-color: var(--nav-borde); color: var(--nav-fg-strong)" aria-label="Abrir menú">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
+        </div>
+      </nav>
+      <div data-menu-panel id="menu-movil" hidden class="lg:hidden pointer-events-auto mt-2 overflow-hidden rounded-3xl glass p-2">
+        <ul class="flex flex-col text-[15px]">
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="index.html">Inicio</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="cronicas.html">Crónicas</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="blog.html">Blog</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="archivo.html">Archivo</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido" class="pt-32 md:pt-40 pb-24">
+
+    <!-- LISTA -->
+    <section id="vista-lista">
+      <div class="shell">
+        <p class="eyebrow text-olive">Novedades de la familia</p>
+        <h1 class="display mt-3 max-w-[24ch] texto-balance">El blog de la familia</h1>
+        <p class="lead mt-4 max-w-[52ch] texto-pretty">
+          Aquí la familia comparte recuerdos, fotos y noticias. Escrito por Melina
+          y cualquiera que quiera aportar.
+        </p>
+      </div>
+      <div id="lista-entradas" class="shell mt-12 grid gap-8 sm:grid-cols-2"></div>
+      <div id="lista-vacia" class="shell mt-16 hidden">
+        <div class="rounded-3xl border border-hair bg-surface/60 p-10 text-center">
+          <p class="lead">Todavía no hay entradas. Las primeras están en camino.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENTRADA INDIVIDUAL -->
+    <section id="vista-entrada" class="hidden">
+      <div class="shell max-w-[72ch]">
+        <a href="blog.html" class="enlace text-[13.5px]">← Volver al blog</a>
+        <p id="entrada-fecha" class="eyebrow text-faint mt-8"></p>
+        <h1 id="entrada-titulo" class="display mt-3 texto-balance"></h1>
+        <article id="entrada-cuerpo" class="prosa mt-8"></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="relative z-10 border-t border-hair bg-surface/40 py-16">
+    <div class="shell">
+      <div class="flex flex-col gap-3 border-t border-hair pt-7 text-[12.5px] text-faint sm:flex-row sm:items-center sm:justify-between">
+        <p>© <span data-anio>2026</span> Familia Piemontesa de Freyre. Hecho con memoria.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/sitio.js" defer></script>
+  <script src="assets/js/blog.js" defer></script>
+</body>
+</html>

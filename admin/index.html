@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de la familia — administración del blog</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FBFBFA">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231D1D1F'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23FBFBFA' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>tailwind.config={theme:{extend:{colors:{base:'#FBFBFA',surface:'#F5F3EE',sand:'#EDE9E1',ink:{DEFAULT:'#1D1D1F',soft:'#4A4A4E'},muted:'#6E6E73',faint:'#9A9A9E',hair:'#E4E1DA',olive:{DEFAULT:'#6E7051',deep:'#585A40'}}}}};</script>
+  <link rel="stylesheet" href="../assets/css/sitio.css">
+  <style>
+    .campo { width:100%; border:1px solid var(--hair); background:#fff; border-radius:14px; padding:12px 14px; font-size:15px; outline:none; }
+    .campo:focus { border-color: var(--olive); }
+    .btn-panel { border-radius:9999px; padding:10px 20px; font-size:14px; font-weight:500; transition: all .25s; }
+    .btn-prim { background:var(--ink); color:#fff; }
+    .btn-prim:hover { background:var(--olive-deep); }
+    .btn-sec { border:1px solid var(--hair); background:#fff; }
+    .btn-sec:hover { border-color: var(--faint); }
+  </style>
+</head>
+<body class="bg-base text-ink antialiased min-h-screen">
+
+  <!-- LOGIN -->
+  <section id="vista-login" class="min-h-screen grid place-items-center p-6">
+    <div class="w-full max-w-sm">
+      <div class="mb-8 text-center">
+        <span class="serif grid h-14 w-14 mx-auto place-items-center rounded-full border border-ink/20 text-[20px]">P</span>
+        <h1 class="serif mt-5 text-[26px]">Blog de la familia</h1>
+        <p class="text-muted mt-1 text-[14px]">Ingresá para escribir</p>
+      </div>
+      <form id="form-login" class="space-y-3">
+        <input id="login-user" class="campo" type="text" placeholder="Usuario" autocomplete="username" required>
+        <input id="login-pass" class="campo" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+        <p id="login-error" class="hidden text-[13px] text-rose-600 text-center">Usuario o contraseña incorrectos.</p>
+        <button class="btn-panel btn-prim w-full mt-2" type="submit">Ingresar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- LISTA -->
+  <section id="vista-lista" class="hidden min-h-screen">
+    <div class="shell max-w-4xl pt-16 pb-24">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="versalitas text-faint">Blog de la familia</p>
+          <h1 class="serif mt-2 text-[28px]">Entradas</h1>
+        </div>
+        <div class="flex gap-2">
+          <button id="btn-salir" class="btn-panel btn-sec">Salir</button>
+          <a href="../blog.html" target="_blank" class="btn-panel btn-sec">Ver blog</a>
+        </div>
+      </div>
+      <button id="btn-nueva" class="btn-panel btn-prim mt-8 w-full sm:w-auto">＋ Nueva entrada</button>
+      <div id="lista-posts" class="mt-8 space-y-3"></div>
+    </div>
+  </section>
+
+  <!-- EDITOR -->
+  <section id="vista-editor" class="hidden min-h-screen">
+    <div class="shell max-w-3xl pt-16 pb-24">
+      <button id="volver-lista" class="enlace text-[14px]">← Volver a las entradas</button>
+      <h1 id="editor-titulo-vista" class="serif mt-6 text-[28px]">Nueva entrada</h1>
+      <div class="mt-8 space-y-4">
+        <input id="ed-titulo" class="campo" type="text" placeholder="Título de la entrada">
+        <div class="flex flex-wrap gap-2">
+          <button data-wr="**" data-ph="palabra" class="btn-panel btn-sec text-[13px]">Negrita</button>
+          <button data-wr="*" data-ph="palabra" class="btn-panel btn-sec text-[13px]">Cursiva</button>
+          <button data-wr="[sq]" data-ph="texto" data-url="https://" class="btn-panel btn-sec text-[13px]">Link</button>
+          <button data-img="1" class="btn-panel btn-sec text-[13px]">Foto</button>
+          <button data-spot="1" class="btn-panel btn-sec text-[13px]">Canción</button>
+        </div>
+        <textarea id="ed-cuerpo" class="campo" rows="18" placeholder="Escribí acá la entrada…" style="line-height:1.7"></textarea>
+        <div class="flex items-center gap-3 pt-2">
+          <button id="btn-guardar" class="btn-panel btn-prim">Guardar y publicar</button>
+          <span id="ed-estado" class="text-[13px] text-faint"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="vista-previa" class="hidden fixed inset-0 z-50 bg-black/40 p-4 sm:p-10 overflow-auto">
+    <div class="mx-auto max-w-3xl rounded-3xl bg-white p-8 sm:p-12 prose" id="previa-contenido" style="max-width:none"></div>
+    <div class="mx-auto max-w-3xl mt-4 flex justify-end gap-2">
+      <button id="cerrar-previa" class="btn-panel btn-prim bg-white !text-ink shadow">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    const WORKER = "https://panel-familia-piemontesa.familiapiemontesa.workers.dev";
+    const $ = (id) => document.getElementById(id);
+    let token = localStorage.getItem("panel_token") || "";
+    let posts = [];
+    let editando = null;
+
+    const esc = s => (s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    function md(cuerpo) {
+      let t = esc(cuerpo || "");
+      t = t.replace(/!\[([^\]]*)\]\((https?:[^)\s]+)\)/g, (_,a,s) => `<img src="${s}" class="rounded-2xl my-6 w-full">`);
+      t = t.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a class="enlace" href="$2" target="_blank" rel="noopener">$1</a>');
+      t = t.replace(/https?:\/\/open\.spotify\.com\/(\w+)\/(\w+)/, (m,t2,i) => `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${t2}/${i}" width="100%" height="152" frameborder="0" allow="encrypted-media"></iframe>`);
+      t = t.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/(^|[\s(])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+      t = t.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+      return t.split(/\n{2,}/).map(p => /^\s*<(h3|ul|img|iframe)/.test(p.trim()) ? p.trim() : `<p>${p.trim().replace(/\n/g,"<br>")}</p>`).join("");
+    }
+
+    function mostrar(id) { ["vista-login","vista-lista","vista-editor"].forEach(v => $(v).classList.toggle("hidden", v !== id)); }
+
+    async function api(path, opts = {}) {
+      opts.headers = Object.assign({ "content-type": "application/json" }, opts.headers || {});
+      if (token) opts.headers.authorization = "Bearer " + token;
+      const r = await fetch(WORKER + path, opts);
+      if (r.status === 401) { localStorage.removeItem("panel_token"); token = ""; mostrar("vista-login"); throw new Error("sesion"); }
+      return r.json();
+    }
+
+    $("form-login").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("login-error").classList.add("hidden");
+      try {
+        const r = await fetch(WORKER + "/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ user: $("login-user").value.trim(), pass: $("login-pass").value }) });
+        const j = await r.json();
+        if (!j.token) throw 0;
+        token = j.token;
+        localStorage.setItem("panel_token", token);
+        await cargarLista();
+      } catch { $("login-error").classList.remove("hidden"); }
+    });
+
+    async function cargarLista() {
+      const j = await api("/posts");
+      posts = j.posts || [];
+      $("lista-posts").innerHTML = posts.map(p => `
+        <div class="flex items-center justify-between gap-4 rounded-2xl border p-4" style="border-color:var(--hair)">
+          <div class="min-w-0">
+            <p class="font-medium truncate text-[15px]">${esc(p.titulo)}</p>
+            <p class="text-[12.5px] text-faint">${esc(p.fecha)}</p>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            <button data-edit="${p.slug}" class="btn-panel btn-sec">Editar</button>
+            <button data-borrar="${p.slug}" data-confirm="¿Borrar esta entrada?" class="btn-panel btn-sec !text-rose-600">Borrar</button>
+          </div>
+        </div>`).join("") || '<p class="text-muted text-[14px]">Todavía no hay entradas.</p>';
+      mostrar("vista-lista");
+    }
+
+    $("btn-nueva").addEventListener("click", () => { editando = null; $("editor-titulo-vista").textContent = "Nueva entrada"; $("ed-titulo").value = ""; $("ed-cuerpo").value = ""; mostrar("vista-editor"); });
+    $("volver-lista").addEventListener("click", cargarLista);
+    $("btn-salir").addEventListener("click", () => { token = ""; localStorage.removeItem("panel_token"); mostrar("vista-login"); });
+    $("lista-posts").addEventListener("click", async (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.edit) {
+        const p = posts.find(x => x.slug === b.dataset.edit);
+        editando = p; $("editor-titulo-vista").textContent = "Editar entrada";
+        $("ed-titulo").value = p.titulo; $("ed-cuerpo").value = p.cuerpo || ""; mostrar("vista-editor");
+      }
+      if (b.dataset.borrar && confirm("¿Borrar esta entrada?")) {
+        await api("/posts", { method: "POST", body: JSON.stringify({ accion: "borrar", slug: b.dataset.borrar }) });
+        cargarLista();
+      }
+    });
+
+    document.querySelectorAll("[data-wr]").forEach(b => b.addEventListener("click", () => {
+      const ta = $("ed-cuerpo");
+      const ini = ta.selectionStart, fin = ta.selectionEnd, sel = ta.value.slice(ini, fin);
+      const apertura = b.dataset.wr === "[sq]" ? "[" : b.dataset.wr;
+      const cierre = b.dataset.wr === "[sq]" ? "](" + (b.dataset.url || "") + ")" : b.dataset.wr;
+      ta.value = ta.value.slice(0, ini) + apertura + (sel || b.dataset.ph) + cierre + ta.value.slice(fin);
+      ta.focus();
+    }));
+    document.querySelector("[data-img]").addEventListener("click", () => { $("ed-cuerpo").value += "\n\n![descripción de la foto](pegá acá la URL de la foto)"; $("ed-cuerpo").focus(); });
+    document.querySelector("[data-spot]").addEventListener("click", () => { $("ed-cuerpo").value += "\n\nPegá acá el link de Spotify"; $("ed-cuerpo").focus(); });
+
+    $("btn-guardar").addEventListener("click", async () => {
+      const titulo = $("ed-titulo").value.trim();
+      const cuerpo = $("ed-cuerpo").value.trim();
+      if (!titulo || !cuerpo) { $("ed-estado").textContent = "Falta el título o el texto."; return; }
+      $("btn-guardar").disabled = true;
+      $("ed-estado").textContent = "Publicando…";
+      try {
+        const payload = { titulo, cuerpo, accion: "guardar" };
+        if (editando) payload.slug = editando.slug;
+        await api("/posts", { method: "POST", body: JSON.stringify(payload) });
+        $("ed-estado").textContent = "Publicado ✓";
+        setTimeout(cargarLista, 700);
+      } catch (err) { if (err.message !== "sesion") $("ed-estado").textContent = "Error al publicar."; $("btn-guardar").disabled = false; }
+    });
+
+    if (token) { api("/posts").then(cargarLista).catch(() => mostrar("vista-login")); }
+  })();
+  </script>
+</body>
+</html>
