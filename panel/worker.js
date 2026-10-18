@@ -85,7 +85,9 @@ async function ghGetMetaYContenido(env, ruta) {
     { headers: ghHeaders });
   if (r.status === 404) return { data: { posts: [] }, sha: undefined };
   const j = await r.json();
-  return { data: JSON.parse(new TextDecoder().decode(Uint8Array.from(j.content, c => c.charCodeAt(0)))), sha: j.sha };
+  const binario = atob((j.content || "").replace(/\s/g, ""));
+  const bytes = Uint8Array.from(binario, c => c.charCodeAt(0));
+  return { data: JSON.parse(new TextDecoder().decode(bytes)), sha: j.sha };
 }
 
 async function ghPutJson(env, data, sha, mensaje) {
@@ -157,10 +159,12 @@ async function manejarImagenes(request, env) {
   const clave = (cuerpo.clave || "").trim();
   if (!clave) return jsonResp({ error: "falta_clave" }, 400);
 
-  let datos, sha;
-  try {
-    ({ data, sha } = await ghGetMetaYContenido(env, "content/imagenes.json"));
-  } catch { return jsonResp({ error: "no_se_pudo_leer_catalogo" }, 500); }
+    let datos, sha;
+    try {
+      const meta = await ghGetMetaYContenido(env, "content/imagenes.json");
+      datos = meta.data; sha = meta.sha;
+      if (!datos || !datos.claves) throw new Error("resp_sin_claves");
+    } catch (e) { return jsonResp({ error: "no_se_pudo_leer_catalogo", detalle: String(e && e.message) }, 500); }
   if (!datos.claves || !(clave in datos.claves)) return jsonResp({ error: "clave_desconocida" }, 400);
 
   let urlFoto = null;
