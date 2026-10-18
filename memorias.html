@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Álbum de memorias — Familia Piemontesa de Freyre</title>
+  <meta name="description" content="Álbum colaborativo de memorias familiares: fotos, documentos, objetos y relatos aportados por la familia piemontesa de Freyre.">
+  <meta name="theme-color" content="#FBFBFA">
+  <meta name="color-scheme" content="light">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="Familia Piemontesa de Freyre">
+  <meta property="og:title" content="Álbum de memorias — Familia Piemontesa de Freyre">
+  <meta property="og:description" content="Un álbum que construimos entre todos: piezas aportadas por la familia, con su historia y su ficha.">
+  <meta property="og:image" content="https://picsum.photos/seed/album-portada/1200/630?grayscale">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="canonical" href="./memorias.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231D1D1F'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23FBFBFA' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#FBFBFA',
+            surface: '#F5F3EE',
+            sand: '#EDE9E1',
+            ink: { DEFAULT: '#1D1D1F', soft: '#4A4A4E' },
+            muted: '#6E6E73',
+            faint: '#9A9A9E',
+            hair: '#E4E1DA',
+            olive: { DEFAULT: '#6E7051', deep: '#585A40' },
+            steel: '#46586A',
+            clay: '#A2683F'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif']
+          },
+          maxWidth: { shell: '1240px' }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/sitio.css">
+</head>
+<body class="bg-base text-ink antialiased">
+
+  <a class="saltar-al-contenido" href="#contenido">Saltar al contenido</a>
+
+  <header class="fixed inset-x-0 top-0 z-50 pointer-events-none">
+    <div class="shell pt-4 md:pt-5">
+      <nav data-nav class="nav-shell pointer-events-auto flex items-center justify-between gap-4 rounded-full px-3.5 py-2.5 sm:px-5">
+
+        <a href="index.html" class="flex items-center gap-3 rounded-full pl-1 pr-2 py-1 shrink-0" aria-label="Inicio — Familia Piemontesa de Freyre">
+          <span class="grid h-9 w-9 place-items-center rounded-full border" style="border-color: var(--nav-borde)">
+            <span class="serif text-[15px] leading-none" style="color: var(--nav-fg-strong)">P</span>
+          </span>
+          <span class="hidden leading-tight sm:block">
+            <span class="block text-[13.5px] font-medium tracking-[-0.01em]" style="color: var(--nav-fg-strong)">Familia Piemontesa</span>
+            <span class="block text-[10.5px] uppercase tracking-[0.16em]" style="color: var(--nav-fg)">de Freyre</span>
+          </span>
+        </a>
+
+        <ul class="hidden lg:flex items-center gap-5 xl:gap-7 text-[13.5px]">
+          <li><a class="nav-link" href="index.html">Inicio</a></li>
+          <li><a class="nav-link" href="origenes.html">Orígenes</a></li>
+          <li><a class="nav-link" href="cronicas.html">Crónicas</a></li>
+          <li><a class="nav-link" href="memorias.html" aria-current="page">Álbum de memorias</a></li>
+          <li><a class="nav-link" href="videos.html">Videos</a></li>
+          <li><a class="nav-link" href="archivo.html">Archivo</a></li>
+        </ul>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <a data-abrir-memoria href="#aportar" class="btn btn-claro hidden sm:inline-flex !py-2.5 !px-5">
+            Aportar memoria
+          </a>
+          <button data-menu-btn type="button" aria-expanded="false" aria-controls="menu-movil"
+                  class="lg:hidden grid h-10 w-10 place-items-center rounded-full border"
+                  style="border-color: var(--nav-borde); color: var(--nav-fg-strong)" aria-label="Abrir menú">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <path d="M4 7h16M4 12h16M4 17h16"/>
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <div data-menu-panel id="menu-movil" hidden
+           class="lg:hidden pointer-events-auto mt-2 overflow-hidden rounded-3xl glass p-2">
+        <ul class="flex flex-col text-[15px]">
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="index.html">Inicio</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="origenes.html">Orígenes</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="cronicas.html">Crónicas</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="memorias.html" aria-current="page">Álbum de memorias</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="videos.html">Videos</a></li>
+          <li><a class="block rounded-2xl px-4 py-3 text-ink-soft hover:bg-black/[.045] hover:text-ink transition-colors" href="archivo.html">Archivo</a></li>
+        </ul>
+        <div class="p-2 pt-1">
+          <a data-abrir-memoria href="#aportar" class="btn btn-primario w-full">Aportar una memoria</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <section class="relative overflow-hidden hero-grano">
+      <img src="https://picsum.photos/seed/album-portada/2400/1400?grayscale"
+           alt="" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" decoding="async">
+      <div class="absolute inset-0 hero-scrim" aria-hidden="true"></div>
+      <div class="relative shell pt-36 md:pt-52 pb-16 md:pb-24 text-white">
+        <p class="hero-eyebrow eyebrow !text-white/75">Álbum de memorias</p>
+        <h1 class="hero-titulo display mt-5 max-w-[19ch] texto-balance text-white">Un álbum que construimos entre todos</h1>
+        <p class="hero-sub lead mt-7 max-w-[48ch] !text-white/80">Fotos, documentos, objetos y relatos aportados por la familia. Cada pieza se revisa antes de publicarse y queda con su historia.</p>
+      </div>
+    </section>
+
+    <section class="shell py-24 md:py-32">
+      <div class="grid gap-8 lg:grid-cols-12 lg:items-end reveal">
+        <div class="lg:col-span-7">
+          <p class="eyebrow">El muro</p>
+          <h2 class="h-seccion mt-5 max-w-[24ch] texto-balance">Piezas aportadas por la familia</h2>
+        </div>
+        <div class="lg:col-span-5 lg:text-right">
+          <p class="text-[14.5px] leading-relaxed text-ink-soft lg:ml-auto lg:max-w-[38ch]">
+            Filtrá por tipo de pieza. Si algo te suena conocido, quizá puedas ponerle nombre, fecha o lugar:
+            casi todo lo que falta se completa entre varios.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-12 flex flex-wrap items-center gap-2 reveal" data-filtros="#muro-memorias">
+        <button class="filtro" type="button" data-filtro="todas" aria-pressed="true">Todas</button>
+        <button class="filtro" type="button" data-filtro="fotos" aria-pressed="false">Fotos</button>
+        <button class="filtro" type="button" data-filtro="documentos" aria-pressed="false">Documentos</button>
+        <button class="filtro" type="button" data-filtro="objetos" aria-pressed="false">Objetos</button>
+        <button class="filtro" type="button" data-filtro="relatos" aria-pressed="false">Relatos</button>
+      </div>
+
+      <div id="muro-memorias" class="muro mt-10">
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="fotos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-01/900/1200?grayscale" alt="Retrato familiar sin fecha" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">Década de 1930</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">Retrato de estudio, sin fecha ni nombres al dorso.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="memoria tarjeta carta-papel" data-categoria="documentos">
+            <div class="p-6 renglon">
+              <p class="eyebrow !text-faint">Documento</p>
+              <p class="serif mt-3 text-[17px] leading-relaxed text-ink">
+                «…y el barco partió de Génova un día de marzo que no quiero recordar.»
+              </p>
+              <p class="mt-4 text-[13px] text-muted">Fragmento de una carta de viaje, transcripta por la familia.</p>
+            </div>
+          </figure>
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="objetos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-03/1000/1000?grayscale" alt="Objeto de familia" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">Objeto</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">Un reloj de bolsillo que cruzó el océano en un bolsillo del abrigo.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="fotos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-04/900/700?grayscale" alt="La casa de la familia" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">La casa</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">Frente de la casa de Freyre, antes del alero nuevo.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="memoria tarjeta carta-papel" data-categoria="relatos">
+            <div class="p-6 renglon">
+              <p class="eyebrow !text-faint">Relato</p>
+              <p class="mt-3 text-[14.5px] leading-relaxed text-ink-soft">
+                «Mi abuela decía que en el campo nunca se tiraba nada. Ni el pan, ni las palabras.»
+              </p>
+              <p class="mt-4 text-[13px] text-muted">Contado por un bisnieto, 2024.</p>
+            </div>
+          </figure>
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="documentos fotos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-06/900/1100?grayscale" alt="Documento migratorio" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">Papel</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">Documento migratorio con sellos y una firma casi borrada.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="fotos objetos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-07/900/1300?grayscale" alt="Mantel bordado" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">La mesa</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">El mantel bordado que solo salía en las grandes ocasiones.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="memoria tarjeta carta-papel" data-categoria="relatos documentos">
+            <div class="p-6 renglon">
+              <p class="eyebrow !text-faint">Relato</p>
+              <p class="mt-3 text-[14.5px] leading-relaxed text-ink-soft">
+                «Del pueblo se acuerdan pocos. Del apellido, todos.»
+              </p>
+              <p class="mt-4 text-[13px] text-muted">Nota al margen de un cuaderno de campo.</p>
+            </div>
+          </figure>
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="fotos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-09/900/900?grayscale" alt="Reunión familiar" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">Reunión</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">Asado de fin de año, con tres generaciones en el mismo patio.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="objetos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-10/1000/1000?grayscale" alt="Herramientas de oficio" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">Herramientas</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">El juego de formones que pasó de padre a hijo, sin faltar ninguno.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="memoria tarjeta carta-papel" data-categoria="documentos">
+            <div class="p-6 renglon">
+              <p class="eyebrow !text-faint">Partida</p>
+              <p class="mt-3 text-[14.5px] leading-relaxed text-ink-soft">
+                «Acta de nacimiento, folio y número legibles a medias.»
+              </p>
+              <p class="mt-4 text-[13px] text-muted">Transcripción parcial de una partida del registro civil.</p>
+            </div>
+          </figure>
+
+          <figure class="memoria grupo-foto tarjeta" data-categoria="fotos relatos">
+            <div class="relative overflow-hidden">
+              <img src="https://picsum.photos/seed/memoria-12/1200/800?grayscale" alt="Fiesta en el pueblo" class="foto-historica w-full object-cover" loading="lazy" decoding="async">
+            </div>
+            <figcaption class="p-5">
+              <p class="eyebrow !text-faint">Fiesta patronal</p>
+              <p class="mt-2 text-[14px] leading-relaxed text-ink-soft">La fiesta del pueblo, con la familia entera posando antes de la procesión.</p>
+            </figcaption>
+          </figure>
+
+      </div>
+
+      <p id="filtro-vacio" hidden class="mt-10 text-center text-[14px] text-muted">
+        Todavía no hay piezas de esta categoría. Podés ser el primero en aportar una.
+      </p>
+
+    </section>
+
+    <section class="superficie hair-top hair-bottom">
+      <div class="shell py-24 md:py-32">
+        <div class="max-w-[46ch] reveal">
+          <p class="eyebrow">Cómo funciona</p>
+          <h2 class="h-seccion mt-5 texto-balance">Aportar es más simple de lo que parece</h2>
+        </div>
+        <div class="mt-14 grid gap-8 md:grid-cols-3">
+          <article class="reveal">
+            <p class="serif text-[clamp(2.2rem,4vw,3rem)] leading-none text-olive">01</p>
+            <h3 class="h-carta mt-5">Mandás lo que tenés</h3>
+            <p class="mt-4 text-[15px] leading-relaxed text-ink-soft">
+              Una foto, un documento, un objeto fotografiado o un recuerdo escrito. No hace falta que esté
+              ordenado ni completo.
+            </p>
+          </article>
+          <article class="reveal" data-retardo="120">
+            <p class="serif text-[clamp(2.2rem,4vw,3rem)] leading-none text-olive">02</p>
+            <h3 class="h-carta mt-5">Lo revisamos juntos</h3>
+            <p class="mt-4 text-[15px] leading-relaxed text-ink-soft">
+              Te escribimos para confirmar datos, chequear fechas y pedirte permiso sobre cómo firmarlo, con
+              tu nombre o de forma anónima.
+            </p>
+          </article>
+          <article class="reveal" data-retardo="240">
+            <p class="serif text-[clamp(2.2rem,4vw,3rem)] leading-none text-olive">03</p>
+            <h3 class="h-carta mt-5">Entra al álbum</h3>
+            <p class="mt-4 text-[15px] leading-relaxed text-ink-soft">
+              La pieza se publica con su ficha y su historia. Si después aparece un dato mejor, la
+              corregimos.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="aportar" class="superficie hair-top">
+      <div class="shell py-24 md:py-32">
+        <div class="mx-auto max-w-[52ch] text-center reveal">
+          <p class="eyebrow">Tu parte</p>
+          <h2 class="h-seccion mt-5 texto-balance">La historia se completa cuando la contás</h2>
+          <p class="lead mt-6">¿Tenés una foto, un documento, un objeto o un recuerdo? Aportalo. Lo revisamos con cuidado y lo sumamos al álbum con tu nombre o en anonimato, como prefieras.</p>
+          <div class="mt-10 flex flex-wrap justify-center gap-3">
+            <button data-abrir-memoria type="button" class="btn btn-primario">Aportar una memoria</button>
+            <a href="mailto:familiapiemontesafreyre@gmail.com" class="btn btn-fantasma">Escribirnos por correo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-base hair-top">
+    <div class="shell py-16 md:py-20">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5">
+          <div class="flex items-center gap-3">
+            <span class="marca-sello">
+              <span class="serif text-[15px] leading-none">P</span>
+            </span>
+            <span class="leading-tight">
+              <span class="block text-[13.5px] font-medium">Familia Piemontesa</span>
+              <span class="block text-[10.5px] uppercase tracking-[0.16em] text-muted">de Freyre</span>
+            </span>
+          </div>
+          <p class="mt-6 max-w-[38ch] text-[14px] leading-relaxed text-ink-soft">
+            Un archivo familiar abierto, hecho con tiempo y con memoria. Freyre, Santa Fe, Argentina.
+          </p>
+        </div>
+
+        <div class="md:col-span-3">
+          <p class="footer-titulo">Explorar</p>
+          <ul class="mt-5 space-y-3 text-[14px] text-ink-soft">
+            <li><a class="enlace" href="origenes.html">Orígenes</a></li>
+            <li><a class="enlace" href="cronicas.html">Crónicas</a></li>
+            <li><a class="enlace" href="memorias.html">Álbum de memorias</a></li>
+            <li><a class="enlace" href="videos.html">Videos</a></li>
+            <li><a class="enlace" href="archivo.html">Archivo digital</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-4">
+          <p class="footer-titulo">Contacto</p>
+          <ul class="mt-5 space-y-3 text-[14px] text-ink-soft">
+            <li><a class="enlace" href="mailto:familiapiemontesafreyre@gmail.com">familiapiemontesafreyre@gmail.com</a></li>
+            <li>
+              <button data-abrir-memoria type="button" class="enlace">Aportar una memoria</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col gap-3 border-t border-hair pt-7 text-[12.5px] text-faint sm:flex-row sm:items-center sm:justify-between">
+        <p>© <span data-anio>2026</span> Familia Piemontesa de Freyre. Hecho con memoria.</p>
+        <p>Las fechas y datos históricos pueden corregirse con aportes de la familia.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button data-volver-arriba type="button" aria-label="Volver arriba"
+          class="fixed bottom-6 right-6 z-40 grid h-11 w-11 place-items-center rounded-full glass opacity-0 pointer-events-none transition-opacity duration-500">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+
+  <div id="modal-memoria" hidden class="modal-fondo fixed inset-0 z-[100] overflow-y-auto p-4 sm:p-6">
+    <div class="flex min-h-full items-start justify-center py-6 sm:py-10">
+      <div class="modal-caja relative w-full max-w-[660px] rounded-[26px] bg-base p-6 shadow-[0_40px_90px_-40px_rgba(29,29,31,.5)] sm:p-9" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+
+        <button data-cerrar-memoria type="button" aria-label="Cerrar"
+                class="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full hover:bg-black/5 transition-colors">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+
+        <p class="eyebrow">Álbum colaborativo</p>
+        <h2 id="modal-titulo" class="h-seccion !text-[clamp(1.6rem,3vw,2.15rem)] mt-4 max-w-[26ch] texto-balance">Aportá una memoria a la familia</h2>
+        <p class="mt-4 text-[14.5px] leading-relaxed text-ink-soft">
+          Contanos qué querés sumar. Revisamos cada aporte antes de publicarlo y te escribimos si
+          necesitamos algún dato más.
+        </p>
+
+        <form id="form-memoria" class="mt-8 space-y-5"
+              action="https://formspree.io/f/XXXXXXX" method="POST"
+              data-correo="familiapiemontesafreyre@gmail.com">
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label class="etiqueta" for="f-nombre">Nombre y apellido</label>
+              <input class="campo" id="f-nombre" name="nombre" type="text" required autocomplete="name" placeholder="Tu nombre">
+            </div>
+            <div>
+              <label class="etiqueta" for="f-email">Correo electrónico</label>
+              <input class="campo" id="f-email" name="email" type="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+            </div>
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label class="etiqueta" for="f-vinculo">Vínculo con la familia</label>
+              <input class="campo" id="f-vinculo" name="vinculo" type="text" placeholder="Ej.: bisnieta, sobrino, amistad de la casa">
+            </div>
+            <div>
+              <label class="etiqueta" for="f-epoca">Época aproximada</label>
+              <input class="campo" id="f-epoca" name="epoca" type="text" placeholder="Ej.: años 40, sin fecha">
+            </div>
+          </div>
+
+          <div>
+            <label class="etiqueta" for="f-titulo">Título del aporte</label>
+            <input class="campo" id="f-titulo" name="titulo" type="text" placeholder="Ej.: El reloj de la abuela" >
+          </div>
+
+          <div>
+            <label class="etiqueta" for="f-relato">Tu relato</label>
+            <textarea class="campo min-h-[132px] resize-y" id="f-relato" name="relato" required
+                      placeholder="Contá la historia con el detalle que recuerdes: quién, cuándo, dónde. No hace falta que sea perfecto."></textarea>
+          </div>
+
+          <div>
+            <span class="etiqueta">Archivos (opcional)</span>
+            <div data-zona-soltar class="zona-soltar">
+              <input type="file" name="archivos" class="hidden" multiple
+                     accept="image/jpeg,image/png,image/webp,image/tiff,image/heic,application/pdf">
+              <svg class="mx-auto" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6E7051" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 16V4M7 9l5-5 5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+              </svg>
+              <p class="mt-4 text-[14px] font-medium text-ink">Arrastrá tus archivos o hacé clic para elegirlos</p>
+              <p class="mt-2 text-[12.5px] leading-relaxed text-muted">
+                Imágenes (JPG, PNG, WEBP, TIFF, HEIC) o PDF. Hasta 8 archivos, 12 MB cada uno.
+              </p>
+            </div>
+            <div data-archivos class="mt-3 flex flex-wrap gap-2"></div>
+          </div>
+
+          <label class="flex items-start gap-3 rounded-2xl bg-surface p-4">
+            <input type="checkbox" name="autorizacion" required class="mt-0.5 h-4 w-4 shrink-0 accent-[#6E7051]">
+            <span class="text-[13px] leading-relaxed text-ink-soft">
+              Autorizo a la familia a publicar este aporte en el álbum y en el archivo digital del sitio,
+              con mi nombre o de forma anónima si así lo pedí.
+            </span>
+          </label>
+
+          <p id="form-aviso" hidden class="text-[13.5px] leading-relaxed"></p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-1">
+            <button type="submit" class="btn btn-primario">Enviar aporte</button>
+            <button data-cerrar-memoria type="button" class="btn btn-fantasma">Cancelar</button>
+            <span class="text-[12.5px] text-faint">o escribinos a familiapiemontesafreyre@gmail.com</span>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/sitio.js" defer></script>
+</body>
+</html>

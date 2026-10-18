@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Reemplazar la URL base cuando esté definido el dominio definitivo.
+Sitemap: https://REEMPLAZAR.github.io/REEMPLAZAR/sitemap.xml

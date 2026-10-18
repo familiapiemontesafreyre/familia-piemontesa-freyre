@@ -1,0 +1,26 @@
+# Basura de macOS / AppleDouble (aparece en discos externos exFAT/FAT)
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Carpetas de sistema
+.fseventsd
+.TemporaryItems
+
+# Editores / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node (el generador vive FUERA del repo, pero por si acaso)
+node_modules/
+npm-debug.log*
+
+# Secretos / configuración local
+.env
+.env.local
+*.local
