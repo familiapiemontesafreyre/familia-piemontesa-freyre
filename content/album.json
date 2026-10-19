@@ -5,11 +5,26 @@
         "id": "muro-memorias",
         "tipo": "muro",
         "filtros": [
-          {"f": "todas", "etiqueta": "Todas"},
-          {"f": "fotos", "etiqueta": "Fotos"},
-          {"f": "documentos", "etiqueta": "Documentos"},
-          {"f": "objetos", "etiqueta": "Objetos"},
-          {"f": "relatos", "etiqueta": "Relatos"}
+          {
+            "f": "todas",
+            "etiqueta": "Todas"
+          },
+          {
+            "f": "fotos",
+            "etiqueta": "Fotos"
+          },
+          {
+            "f": "documentos",
+            "etiqueta": "Documentos"
+          },
+          {
+            "f": "objetos",
+            "etiqueta": "Objetos"
+          },
+          {
+            "f": "relatos",
+            "etiqueta": "Relatos"
+          }
         ],
         "tarjetas": [
           {
@@ -175,11 +190,26 @@
         "tipo": "grilla",
         "columnas": 3,
         "filtros": [
-          {"f": "todas", "etiqueta": "Todas"},
-          {"f": "fotografias", "etiqueta": "Fotografías"},
-          {"f": "documentos", "etiqueta": "Documentos"},
-          {"f": "objetos", "etiqueta": "Objetos"},
-          {"f": "publicaciones", "etiqueta": "Publicaciones"}
+          {
+            "f": "todas",
+            "etiqueta": "Todas"
+          },
+          {
+            "f": "fotografias",
+            "etiqueta": "Fotografías"
+          },
+          {
+            "f": "documentos",
+            "etiqueta": "Documentos"
+          },
+          {
+            "f": "objetos",
+            "etiqueta": "Objetos"
+          },
+          {
+            "f": "publicaciones",
+            "etiqueta": "Publicaciones"
+          }
         ],
         "tarjetas": [
           {
