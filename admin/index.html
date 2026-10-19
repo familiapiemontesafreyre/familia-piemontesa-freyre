@@ -58,10 +58,23 @@
       <div class="flex gap-2 mt-6">
         <button id="tab-entradas" class="btn-panel btn-prim">Entradas</button>
         <button id="tab-fotos" class="btn-panel btn-sec">Fotos del sitio</button>
+        <button id="tab-album" class="btn-panel btn-sec">Album</button>
       </div>
       <button id="btn-nueva" class="btn-panel btn-prim mt-8 w-full sm:w-auto">＋ Nueva entrada</button>
       <div id="lista-posts" class="mt-8 space-y-3"></div>
       <div id="cont-fotos" class="hidden mt-8 grid gap-4 sm:grid-cols-2"></div>
+      <div id="cont-album" class="hidden mt-8 space-y-4">
+        <p class="text-[13px] text-muted">Editá las tarjetas del álbum por página. Los cambios se ven en el sitio después de apretar «Guardar cambios» (puede demorar un par de minutos).</p>
+        <div class="flex flex-wrap gap-2 items-center">
+          <select id="alb-pagina" class="campo !w-auto"></select>
+          <select id="alb-seccion" class="campo !w-auto"></select>
+          <button id="btn-alb-guardar" class="btn-panel btn-prim">Guardar cambios</button>
+          <span id="alb-estado" class="text-[13px] text-faint"></span>
+        </div>
+        <div id="alb-lista" class="space-y-3"></div>
+        <button id="btn-alb-nueva" class="btn-panel btn-sec">＋ Agregar tarjeta</button>
+        <div id="alb-editor" class="hidden rounded-2xl border p-5" style="border-color:var(--hair)"></div>
+      </div>
     </div>
   </section>
 
@@ -167,18 +180,21 @@
     }
 
     function alternarTab(tab) {
-      const esEntradas = tab === "entradas";
-      $("h1-lista").textContent = esEntradas ? "Entradas" : "Fotos del sitio";
-      $("btn-nueva").classList.toggle("hidden", !esEntradas);
-      $("lista-posts").classList.toggle("hidden", !esEntradas);
-      $("cont-fotos").classList.toggle("hidden", !esEntradas);
-      $("cont-fotos").classList.toggle("grid", !esEntradas);
-      $("tab-entradas").className = "btn-panel " + (esEntradas ? "btn-prim" : "btn-sec");
-      $("tab-fotos").className = "btn-panel " + (esEntradas ? "btn-sec" : "btn-prim");
-      if (!esEntradas) cargarFotos();
+      $("h1-lista").textContent = tab === "entradas" ? "Entradas" : (tab === "fotos" ? "Fotos del sitio" : "Album del sitio");
+      $("btn-nueva").classList.toggle("hidden", tab !== "entradas");
+      $("lista-posts").classList.toggle("hidden", tab !== "entradas");
+      $("cont-fotos").classList.toggle("hidden", tab !== "fotos");
+      $("cont-fotos").classList.toggle("grid", tab === "fotos");
+      $("cont-album").classList.toggle("hidden", tab !== "album");
+      ["entradas", "fotos", "album"].forEach(t => {
+        $("tab-" + t).className = "btn-panel " + (t === tab ? "btn-prim" : "btn-sec");
+      });
+      if (tab === "fotos") cargarFotos();
+      if (tab === "album") cargarAlbum();
     }
     $("tab-entradas").addEventListener("click", () => alternarTab("entradas"));
     $("tab-fotos").addEventListener("click", () => alternarTab("fotos"));
+    $("tab-album").addEventListener("click", () => alternarTab("album"));
 
     async function cargarFotos() {
       const j = await api("/imagenes");
@@ -271,6 +287,203 @@
         $("ed-estado").textContent = "Publicado ✓";
         setTimeout(cargarLista, 700);
       } catch (err) { if (err.message !== "sesion") $("ed-estado").textContent = "Error al publicar."; $("btn-guardar").disabled = false; }
+    });
+
+    let album = null;
+    let clavesMap = null;
+    let albEditando = -1;
+
+    function cerrarEditorAlbum() { albEditando = -1; const ed = $("alb-editor"); ed.classList.add("hidden"); ed.innerHTML = ""; }
+
+    async function obtenerClaves() {
+      if (!clavesMap) {
+        const j = await api("/imagenes");
+        clavesMap = j.claves || {};
+      }
+      return clavesMap;
+    }
+
+    async function cargarAlbum() {
+      try {
+        const j = await api("/album");
+        album = j && j.paginas ? j.paginas : {};
+      } catch (e) { if (e.message !== "sesion") album = {}; }
+      if (!clavesMap) obtenerClaves().catch(() => {});
+      const pagSel = $("alb-pagina");
+      if (!pagSel.options.length) {
+        pagSel.innerHTML = ["memorias", "origenes", "archivo"].map(p => `<option value="${p}">${p.charAt(0).toUpperCase() + p.slice(1)}</option>`).join("");
+        pagSel.addEventListener("change", () => { $("alb-seccion").dataset.pag = ""; renderAlbum(); });
+        $("alb-seccion").addEventListener("change", renderAlbum);
+      }
+      renderAlbum();
+    }
+
+    function seccionActual() {
+      if (!album) return null;
+      const pag = $("alb-pagina").value;
+      const secs = album[pag] || [];
+      return secs[parseInt($("alb-seccion").value, 10) || 0] || secs[0] || null;
+    }
+
+    function resumenTarjeta(t) {
+      if (t.tipo === "foto") return [t.eyebrow, t.pie].filter(Boolean).join(" — ") + (t.clave ? " · foto: " + t.clave : "");
+      if (t.tipo === "relato") return t.cita || "";
+      if (t.tipo === "ficha") return [t.codigo, t.titulo].filter(Boolean).join(" · ") || t.texto || "";
+      if (t.tipo === "valija") return [t.rubro, t.titulo].filter(Boolean).join(" — ");
+      if (t.tipo === "cta") return [t.titulo, t.enlace].filter(Boolean).join(" — ") + (t.href ? " → " + t.href : "");
+      return "";
+    }
+
+    function renderAlbum() {
+      const pag = $("alb-pagina").value;
+      const secs = album[pag] || [];
+      const sel = $("alb-seccion");
+      if (sel.dataset.pag !== pag) {
+        sel.innerHTML = secs.map((s, i) => `<option value="${i}">${esc(s.id || "sección " + (i + 1))}</option>`).join("");
+        sel.dataset.pag = pag;
+      }
+      const s = seccionActual();
+      if (!s || !s.tarjetas) {
+        $("alb-lista").innerHTML = '<p class="text-muted text-[14px]">No hay tarjetas en esta sección.</p>';
+        cerrarEditorAlbum();
+        return;
+      }
+      $("alb-lista").innerHTML = s.tarjetas.map((t, i) => `
+        <div class="flex items-center justify-between gap-4 rounded-2xl border p-4" style="border-color:var(--hair)">
+          <div class="min-w-0 flex items-center gap-2">
+            <span class="chip shrink-0">${esc(t.tipo || "?")}</span>
+            <span class="text-[14px] truncate">${esc(resumenTarjeta(t) || "(sin contenido)")}</span>
+          </div>
+          <div class="flex gap-1 shrink-0">
+            <button data-alb-edit="${i}" class="btn-panel btn-sec !text-[12px]">Editar</button>
+            <button data-alb-subir="${i}" class="btn-panel btn-sec !text-[12px]">↑</button>
+            <button data-alb-bajar="${i}" class="btn-panel btn-sec !text-[12px]">↓</button>
+            <button data-alb-borrar="${i}" class="btn-panel btn-sec !text-[12px] !text-rose-600">Borrar</button>
+          </div>
+        </div>`).join("") || '<p class="text-muted text-[14px]">No hay tarjetas en esta sección.</p>';
+    }
+
+    function camposDe(tipo) {
+      if (tipo === "foto") return [
+        { k: "clave", l: "Foto de la galería", tipo: "clave" },
+        { k: "eyebrow", l: "Encabezado (ej.: Década de 1930)" },
+        { k: "pie", l: "Texto debajo de la foto", tipo: "area" },
+        { k: "alt", l: "Descripción corta de la foto" },
+        { k: "categoria", l: "Categoría/s (fotos, documentos, objetos, relatos…)" }
+      ];
+      if (tipo === "relato") return [
+        { k: "eyebrow", l: "Encabezado (ej.: Documento)" },
+        { k: "cita", l: "Frase de la tarjeta", tipo: "area" },
+        { k: "fuente", l: "Quién/qué lo contó", tipo: "area" },
+        { k: "categoria", l: "Categoría/s (enlaza con los filtros)" }
+      ];
+      if (tipo === "ficha") return [
+        { k: "codigo", l: "Código (ej.: AF-001)" },
+        { k: "rubro", l: "Rubro (Fotografía, Documento, Objeto…)" },
+        { k: "titulo", l: "Título" },
+        { k: "texto", l: "Texto descriptivo", tipo: "area" },
+        { k: "categoria", l: "Categoría/s (enlaza con los filtros)" }
+      ];
+      if (tipo === "valija") return [
+        { k: "rubro", l: "Rubro (ej.: Lengua)" },
+        { k: "titulo", l: "Título" },
+        { k: "texto", l: "Texto", tipo: "area" }
+      ];
+      if (tipo === "cta") return [
+        { k: "clave", l: "Imagen del panel (opcional)", tipo: "clave" },
+        { k: "chip", l: "Etiqueta pequeña (ej.: Archivo)" },
+        { k: "titulo", l: "Título" },
+        { k: "texto", l: "Texto", tipo: "area" },
+        { k: "enlace", l: "Texto del botón" },
+        { k: "href", l: "Página destino (ej.: cronicas.html)" }
+      ];
+      return [];
+    }
+
+    async function abrirEditorAlbum(i) {
+      const s = seccionActual(); if (!s) return;
+      albEditando = i;
+      const t = s.tarjetas[i];
+      const ed = $("alb-editor");
+      let claves = {};
+      try { claves = await obtenerClaves(); } catch {}
+      const campos = camposDe(t.tipo).map(c => {
+        if (c.tipo === "clave") {
+          return `
+            <label class="text-[13px] text-muted block mt-3">${c.l}</label>
+            <select class="campo" data-k="${c.k}">
+              <option value="">— ninguna —</option>
+              ${Object.keys(claves).map(k => `<option value="${esc(k)}" ${k === (t[c.k] || "") ? "selected" : ""}>${esc(k)}</option>`).join("")}
+            </select>`;
+        }
+        if (c.tipo === "area") {
+          return `<label class="text-[13px] text-muted block mt-3">${c.l}</label><textarea class="campo" rows="3" data-k="${c.k}">${esc(t[c.k] || "")}</textarea>`;
+        }
+        return `<label class="text-[13px] text-muted block mt-3">${c.l}</label><input class="campo" data-k="${c.k}" value="${esc(t[c.k] || "")}">`;
+      }).join("");
+      ed.innerHTML = `
+        <label class="text-[13px] text-muted block">Tipo de tarjeta</label>
+        <select id="alb-tipo" class="campo">${["foto", "relato", "ficha", "valija", "cta"].map(x => `<option ${x === t.tipo ? "selected" : ""}>${x}</option>`).join("")}</select>
+        ${campos}
+        <div class="flex gap-2 mt-4">
+          <button id="alb-ok" class="btn-panel btn-prim">Listo</button>
+          <button id="alb-cancel" class="btn-panel btn-sec">Cancelar</button>
+        </div>`;
+      ed.classList.remove("hidden");
+      ed.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      $("alb-tipo").addEventListener("change", async () => {
+        s.tarjetas[albEditando] = { tipo: $("alb-tipo").value };
+        abrirEditorAlbum(albEditando);
+      });
+      $("alb-cancel").addEventListener("click", cerrarEditorAlbum);
+      $("alb-ok").addEventListener("click", () => {
+        const t2 = s.tarjetas[albEditando];
+        ed.querySelectorAll("[data-k]").forEach(inp => {
+          const k = inp.dataset.k;
+          t2[k] = inp.value.trim();
+          if (k === "clave" && t2[k] && claves[t2[k]] && claves[t2[k]].url) t2.src = claves[t2[k]].url;
+        });
+        cerrarEditorAlbum();
+        renderAlbum();
+      });
+    }
+
+    function moverTarjeta(i, d) {
+      const s = seccionActual(); if (!s) return;
+      const j = i + d;
+      if (j < 0 || j >= s.tarjetas.length) return;
+      [s.tarjetas[i], s.tarjetas[j]] = [s.tarjetas[j], s.tarjetas[i]];
+      renderAlbum();
+    }
+
+    $("alb-lista").addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.albEdit !== undefined) abrirEditorAlbum(parseInt(b.dataset.albEdit, 10));
+      if (b.dataset.albSubir !== undefined) moverTarjeta(parseInt(b.dataset.albSubir, 10), -1);
+      if (b.dataset.albBajar !== undefined) moverTarjeta(parseInt(b.dataset.albBajar, 10), +1);
+      if (b.dataset.albBorrar !== undefined && confirm("¿Sacar esta tarjeta del álbum? (se aplica al apretar Guardar cambios)")) {
+        const s = seccionActual();
+        if (s) s.tarjetas.splice(parseInt(b.dataset.albBorrar, 10), 1);
+        renderAlbum();
+      }
+    });
+
+    $("btn-alb-nueva").addEventListener("click", () => {
+      const s = seccionActual(); if (!s || !s.tarjetas) return;
+      s.tarjetas.push({ tipo: "foto" });
+      abrirEditorAlbum(s.tarjetas.length - 1);
+    });
+
+    $("btn-alb-guardar").addEventListener("click", async () => {
+      $("btn-alb-guardar").disabled = true;
+      $("alb-estado").textContent = "Guardando…";
+      try {
+        await api("/album", { method: "POST", body: JSON.stringify({ paginas: album }) });
+        $("alb-estado").textContent = "Guardado ✓ Se ve en el sitio en un par de minutos.";
+      } catch (err) {
+        if (err.message !== "sesion") $("alb-estado").textContent = "Error al guardar.";
+      }
+      $("btn-alb-guardar").disabled = false;
     });
 
     if (token) { api("/posts").then(cargarLista).catch(() => mostrar("vista-login")); }
