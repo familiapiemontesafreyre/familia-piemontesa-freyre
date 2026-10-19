@@ -1,7 +1,261 @@
 {
   "paginas": {
-    "test": [
-      1
+    "memorias": [
+      {
+        "id": "muro-memorias",
+        "tipo": "muro",
+        "filtros": [
+          {"f": "todas", "etiqueta": "Todas"},
+          {"f": "fotos", "etiqueta": "Fotos"},
+          {"f": "documentos", "etiqueta": "Documentos"},
+          {"f": "objetos", "etiqueta": "Objetos"},
+          {"f": "relatos", "etiqueta": "Relatos"}
+        ],
+        "tarjetas": [
+          {
+            "tipo": "foto",
+            "clave": "memoria-01",
+            "src": "https://picsum.photos/seed/memoria-01/900/1200?grayscale",
+            "eyebrow": "Década de 1930",
+            "pie": "Retrato de estudio, sin fecha ni nombres al dorso.",
+            "alt": "Retrato familiar sin fecha",
+            "categoria": "fotos"
+          },
+          {
+            "tipo": "relato",
+            "eyebrow": "Documento",
+            "cita": "«…y el barco partió de Génova un día de marzo que no quiero recordar.»",
+            "fuente": "Fragmento de una carta de viaje, transcripta por la familia.",
+            "categoria": "documentos"
+          },
+          {
+            "tipo": "foto",
+            "clave": "memoria-03",
+            "src": "https://picsum.photos/seed/memoria-03/1000/1000?grayscale",
+            "eyebrow": "Objeto",
+            "pie": "Un reloj de bolsillo que cruzó el océano en un bolsillo del abrigo.",
+            "alt": "Objeto de familia",
+            "categoria": "objetos"
+          },
+          {
+            "tipo": "foto",
+            "clave": "memoria-04",
+            "src": "https://picsum.photos/seed/memoria-04/900/700?grayscale",
+            "eyebrow": "La casa",
+            "pie": "Frente de la casa de Freyre, antes del alero nuevo.",
+            "alt": "La casa de la familia",
+            "categoria": "fotos"
+          },
+          {
+            "tipo": "relato",
+            "eyebrow": "Relato",
+            "cita": "«Mi abuela decía que en el campo nunca se tiraba nada. Ni el pan, ni las palabras.»",
+            "fuente": "Contado por un bisnieto, 2024.",
+            "categoria": "relatos"
+          },
+          {
+            "tipo": "foto",
+            "clave": "memoria-06",
+            "src": "https://picsum.photos/seed/memoria-06/900/1100?grayscale",
+            "eyebrow": "Papel",
+            "pie": "Documento migratorio con sellos y una firma casi borrada.",
+            "alt": "Documento migratorio",
+            "categoria": "documentos fotos"
+          },
+          {
+            "tipo": "foto",
+            "clave": "memoria-07",
+            "src": "https://picsum.photos/seed/memoria-07/900/1300?grayscale",
+            "eyebrow": "La mesa",
+            "pie": "El mantel bordado que solo salía en las grandes ocasiones.",
+            "alt": "Mantel bordado",
+            "categoria": "fotos objetos"
+          },
+          {
+            "tipo": "relato",
+            "eyebrow": "Relato",
+            "cita": "«Del pueblo se acuerdan pocos. Del apellido, todos.»",
+            "fuente": "Nota al margen de un cuaderno de campo.",
+            "categoria": "relatos documentos"
+          },
+          {
+            "tipo": "foto",
+            "clave": "memoria-09",
+            "src": "https://picsum.photos/seed/memoria-09/900/900?grayscale",
+            "eyebrow": "Reunión",
+            "pie": "Asado de fin de año, con tres generaciones en el mismo patio.",
+            "alt": "Reunión familiar",
+            "categoria": "fotos"
+          },
+          {
+            "tipo": "foto",
+            "clave": "memoria-10",
+            "src": "https://picsum.photos/seed/memoria-10/1000/1000?grayscale",
+            "eyebrow": "Herramientas",
+            "pie": "El juego de formones que pasó de padre a hijo, sin faltar ninguno.",
+            "alt": "Herramientas de oficio",
+            "categoria": "objetos"
+          },
+          {
+            "tipo": "relato",
+            "eyebrow": "Partida",
+            "cita": "«Acta de nacimiento, folio y número legibles a medias.»",
+            "fuente": "Transcripción parcial de una partida del registro civil.",
+            "categoria": "documentos"
+          },
+          {
+            "tipo": "foto",
+            "clave": "memoria-12",
+            "src": "https://picsum.photos/seed/memoria-12/1200/800?grayscale",
+            "eyebrow": "Fiesta patronal",
+            "pie": "La fiesta del pueblo, con la familia entera posando antes de la procesión.",
+            "alt": "Fiesta en el pueblo",
+            "categoria": "fotos relatos"
+          }
+        ]
+      }
+    ],
+    "origenes": [
+      {
+        "id": "valija-origenes",
+        "tipo": "grilla",
+        "columnas": 3,
+        "tarjetas": [
+          {
+            "tipo": "valija",
+            "rubro": "Lengua",
+            "titulo": "El piamontés de la cocina",
+            "texto": "No se hablaba en la mesa por elegancia: se hablaba porque era el idioma de la casa. Quedaron palabras sueltas para nombrar comidas, herramientas y cariño."
+          },
+          {
+            "tipo": "valija",
+            "rubro": "Oficios",
+            "titulo": "Manos que sabían hacer",
+            "texto": "Albañilería, carpintería, campo. El oficio fue el pasaporte: llegaba quien sabía trabajar y podía enseñarlo a los hijos."
+          },
+          {
+            "tipo": "valija",
+            "rubro": "Costumbre",
+            "titulo": "Guardar lo que no se tira",
+            "texto": "Botones, hilos, papeles, fotos. La misma costumbre que hoy nos permite tener archivo: nada se tiraba, todo podía servir."
+          }
+        ]
+      },
+      {
+        "id": "cta-origenes",
+        "tipo": "grilla",
+        "columnas": 2,
+        "tarjetas": [
+          {
+            "tipo": "cta",
+            "clave": "origenes-cta-cronicas",
+            "src": "https://picsum.photos/seed/origenes-cta-cronicas/1400/900?grayscale",
+            "chip": "Seguir leyendo",
+            "titulo": "El viaje, contado",
+            "texto": "Las crónicas retoman desde acá: el barco, la llegada y los primeros años en la colonia.",
+            "enlace": "Ver las crónicas",
+            "href": "cronicas.html"
+          },
+          {
+            "tipo": "cta",
+            "clave": "origenes-cta-archivo",
+            "src": "https://picsum.photos/seed/origenes-cta-archivo/1400/900?grayscale",
+            "chip": "Archivo",
+            "titulo": "Los papeles del origen",
+            "texto": "Documentos migratorios, partidas y cartas que sostienen lo que contamos en esta página.",
+            "enlace": "Entrar al archivo",
+            "href": "archivo.html"
+          }
+        ]
+      }
+    ],
+    "archivo": [
+      {
+        "id": "muro-archivo",
+        "tipo": "grilla",
+        "columnas": 3,
+        "filtros": [
+          {"f": "todas", "etiqueta": "Todas"},
+          {"f": "fotografias", "etiqueta": "Fotografías"},
+          {"f": "documentos", "etiqueta": "Documentos"},
+          {"f": "objetos", "etiqueta": "Objetos"},
+          {"f": "publicaciones", "etiqueta": "Publicaciones"}
+        ],
+        "tarjetas": [
+          {
+            "tipo": "ficha",
+            "codigo": "AF-001",
+            "rubro": "Fotografía",
+            "titulo": "Retrato de estudio",
+            "texto": "Dos adultos y un niño. Sin nombres al dorso. Montaje en cartulina del estudio, con borde troquelado.",
+            "categoria": "fotografias"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-004",
+            "rubro": "Documento",
+            "titulo": "Documento migratorio",
+            "texto": "Dos fojas con sellos consulares y una firma parcialmente borrada. Legible el puerto de salida.",
+            "categoria": "documentos"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-009",
+            "rubro": "Objeto",
+            "titulo": "Reloj de bolsillo",
+            "texto": "Caja de metal, sin marca visible. Funciona. Venía en el bolsillo interior de un abrigo de trabajo.",
+            "categoria": "objetos"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-012",
+            "rubro": "Documento",
+            "titulo": "Carta de viaje",
+            "texto": "Una hoja escrita a mano en ambos lados. Transcripción familiar parcial, con palabras en piamontés.",
+            "categoria": "documentos"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-017",
+            "rubro": "Publicación",
+            "titulo": "Programa de fiesta patronal",
+            "texto": "Folleto impreso del pueblo, con publicidades de comercios locales y el nombre de la familia entre los organizadores.",
+            "categoria": "publicaciones"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-023",
+            "rubro": "Fotografía",
+            "titulo": "La casa antes del alero",
+            "texto": "Frente de la vivienda, con dos personas en la puerta. Se ve el terreno sin cerco y el pozo al fondo.",
+            "categoria": "fotografias objetos"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-031",
+            "rubro": "Objeto",
+            "titulo": "Juego de formones",
+            "texto": "Seis piezas de carpintería con mango de madera. Incompleto: falta el de menor medida.",
+            "categoria": "objetos"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-038",
+            "rubro": "Documento",
+            "titulo": "Partida del registro civil",
+            "texto": "Acta con folio y número legibles a medias. Transcripción parcial pendiente de verificación.",
+            "categoria": "documentos publicaciones"
+          },
+          {
+            "tipo": "ficha",
+            "codigo": "AF-044",
+            "rubro": "Fotografía",
+            "titulo": "Fiesta de fin de año",
+            "texto": "Grupo numeroso en el patio. Tres generaciones, varias ramas de la familia y dos vecinos.",
+            "categoria": "fotografias"
+          }
+        ]
+      }
     ]
   }
 }

@@ -1,6 +1,7 @@
 const OWNER = "familiapiemontesafreyre";
 const REPO = "familia-piemontesa-freyre";
 const PATH_JSON = "blog/posts.json";
+const PATH_ALBUM = "content/album.json";
 const BRANCH = "main";
 
 function b64u(buf) {
@@ -90,7 +91,7 @@ async function ghGetMetaYContenido(env, ruta) {
   return { data: JSON.parse(new TextDecoder().decode(bytes)), sha: j.sha };
 }
 
-async function ghPutJson(env, data, sha, mensaje) {
+async function ghPutContenido(env, ruta, data, sha, mensaje) {
   const ghHeaders = {
     authorization: `Bearer ${env.GITHUB_TOKEN}`,
     accept: "application/vnd.github+json",
@@ -103,7 +104,7 @@ async function ghPutJson(env, data, sha, mensaje) {
   };
   if (sha) body.sha = sha;
   const r = await fetch(
-    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH_JSON}`,
+    `https://api.github.com/repos/${OWNER}/${REPO}/contents/${ruta || PATH_JSON}`,
     { method: "PUT", headers: ghHeaders, body: JSON.stringify(body) });
   return r.ok;
 }
@@ -194,7 +195,7 @@ async function manejarPosts(request, env) {
   if (cuerpo.accion === "borrar") {
     const { data, sha } = await ghGetMetaYContenido(env);
     const nueva = { posts: (data.posts || []).filter(p => p.slug !== cuerpo.slug) };
-    const ok = await ghPutJson(env, nueva, sha, `panel: borrar entrada ${cuerpo.slug}`);
+    const ok = await ghPutContenido(env, PATH_JSON, nueva, sha, `panel: borrar entrada ${cuerpo.slug}`);
     return ok ? jsonResp({ ok: true }) : jsonResp({ error: "commit_fallido" }, 500);
   }
 
@@ -204,8 +205,36 @@ async function manejarPosts(request, env) {
   const { data, sha } = await ghGetMetaYContenido(env);
   const posts = (data.posts || []).filter(p => p.slug !== slug);
   posts.unshift({ slug, titulo: cuerpo.titulo, fecha, cuerpo: cuerpo.cuerpo, resumen: resumenDe(cuerpo.cuerpo), actualizado: new Date().toISOString() });
-  const ok = await ghPutJson(env, { posts }, sha, `panel: entrada "${cuerpo.titulo}"`);
+  const ok = await ghPutContenido(env, PATH_JSON, { posts }, sha, `panel: entrada "${cuerpo.titulo}"`);
   return ok ? jsonResp({ ok: true, slug }) : jsonResp({ error: "commit_fallido" }, 500);
+}
+
+async function manejarAlbum(request, env) {
+  if (request.method === "GET") {
+    try {
+      const { data } = await ghGetMetaYContenido(env, PATH_ALBUM);
+      return jsonResp(data && data.paginas ? data : { paginas: {} });
+    } catch (e) {
+      return jsonResp({ error: "no_se_pudo_leer_album", detalle: String(e && e.message) }, 500);
+    }
+  }
+
+  const token = await verificar((request.headers.get("authorization") || "").replace("Bearer ", ""), env.TOKEN_SECRET);
+  if (!token) return jsonResp({ error: "sesion_invalida" }, 401);
+
+  let cuerpo;
+  try { cuerpo = await request.json(); }
+  catch (e) { return jsonResp({ error: "cuerpo_invalido" }, 400); }
+  if (!cuerpo || !cuerpo.paginas || typeof cuerpo.paginas !== "object" || Array.isArray(cuerpo.paginas))
+    return jsonResp({ error: "formato_invalido" }, 400);
+
+  let sha;
+  try {
+    const meta = await ghGetMetaYContenido(env, PATH_ALBUM);
+    sha = meta.sha;
+  } catch (e) { sha = undefined; }
+  const ok = await ghPutContenido(env, PATH_ALBUM, cuerpo, sha, `panel: álbum dinámico actualizado (${new Date().toISOString().slice(0, 10)})`);
+  return ok ? jsonResp({ ok: true }) : jsonResp({ error: "commit_fallido" }, 500);
 }
 
 const app = {
@@ -217,6 +246,7 @@ const app = {
     if (ruta === "/health") return jsonResp({ ok: true });
     if (ruta === "/posts") return manejarPosts(request, env);
     if (ruta === "/imagenes") return manejarImagenes(request, env);
+    if (ruta === "/album") return manejarAlbum(request, env);
     if (ruta === "/login" && request.method === "POST") {
       const { user, pass } = await request.json();
       if (user !== env.PANEL_USER || pass !== env.PANEL_PASS) return jsonResp({ error: "credenciales_invalidas" }, 401);
