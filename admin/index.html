@@ -59,6 +59,7 @@
         <button id="tab-entradas" class="btn-panel btn-prim">Entradas</button>
         <button id="tab-fotos" class="btn-panel btn-sec">Fotos del sitio</button>
         <button id="tab-album" class="btn-panel btn-sec">Album</button>
+        <button id="tab-videos" class="btn-panel btn-sec">Videos</button>
       </div>
       <button id="btn-nueva" class="btn-panel btn-prim mt-8 w-full sm:w-auto">＋ Nueva entrada</button>
       <div id="lista-posts" class="mt-8 space-y-3"></div>
@@ -74,6 +75,16 @@
         <div id="alb-lista" class="space-y-3"></div>
         <button id="btn-alb-nueva" class="btn-panel btn-sec">＋ Agregar tarjeta</button>
         <div id="alb-editor" class="hidden rounded-2xl border p-5" style="border-color:var(--hair)"></div>
+      </div>
+      <div id="cont-videos" class="hidden mt-8 space-y-4">
+        <p class="text-[13px] text-muted">Editá las tarjetas de la página Videos. Subí cada video a YouTube como «no listado», copiá su enlace y pegalo acá. Los cambios se ven en el sitio después de apretar «Guardar cambios» (puede demorar un par de minutos).</p>
+        <div class="flex flex-wrap gap-2 items-center">
+          <button id="btn-vid-guardar" class="btn-panel btn-prim">Guardar cambios</button>
+          <span id="vid-estado" class="text-[13px] text-faint"></span>
+        </div>
+        <div id="vid-lista" class="space-y-3"></div>
+        <button id="btn-vid-nueva" class="btn-panel btn-sec">＋ Agregar video</button>
+        <div id="vid-editor" class="hidden rounded-2xl border p-5" style="border-color:var(--hair)"></div>
       </div>
     </div>
   </section>
@@ -180,21 +191,24 @@
     }
 
     function alternarTab(tab) {
-      $("h1-lista").textContent = tab === "entradas" ? "Entradas" : (tab === "fotos" ? "Fotos del sitio" : "Album del sitio");
+      $("h1-lista").textContent = tab === "entradas" ? "Entradas" : (tab === "fotos" ? "Fotos del sitio" : (tab === "album" ? "Album del sitio" : "Videos del sitio"));
       $("btn-nueva").classList.toggle("hidden", tab !== "entradas");
       $("lista-posts").classList.toggle("hidden", tab !== "entradas");
       $("cont-fotos").classList.toggle("hidden", tab !== "fotos");
       $("cont-fotos").classList.toggle("grid", tab === "fotos");
       $("cont-album").classList.toggle("hidden", tab !== "album");
-      ["entradas", "fotos", "album"].forEach(t => {
+      $("cont-videos").classList.toggle("hidden", tab !== "videos");
+      ["entradas", "fotos", "album", "videos"].forEach(t => {
         $("tab-" + t).className = "btn-panel " + (t === tab ? "btn-prim" : "btn-sec");
       });
       if (tab === "fotos") cargarFotos();
       if (tab === "album") cargarAlbum();
+      if (tab === "videos") cargarVideos();
     }
     $("tab-entradas").addEventListener("click", () => alternarTab("entradas"));
     $("tab-fotos").addEventListener("click", () => alternarTab("fotos"));
     $("tab-album").addEventListener("click", () => alternarTab("album"));
+    $("tab-videos").addEventListener("click", () => alternarTab("videos"));
 
     async function cargarFotos() {
       const j = await api("/imagenes");
@@ -484,6 +498,118 @@
         if (err.message !== "sesion") $("alb-estado").textContent = "Error al guardar.";
       }
       $("btn-alb-guardar").disabled = false;
+    });
+
+    let videos = null;
+    let vidEditando = -1;
+    const CATS_VID = ["familia", "oficios", "festejos", "entrevistas"];
+
+    async function cargarVideos() {
+      try {
+        const j = await api("/videos");
+        videos = j && j.videos ? j.videos : [];
+      } catch (e) { if (e.message !== "sesion") videos = []; }
+      renderVideos();
+    }
+
+    function cerrarEditorVid() { vidEditando = -1; const ed = $("vid-editor"); ed.classList.add("hidden"); ed.innerHTML = ""; }
+
+    function resumenVid(v) {
+      const estado = v.oculto ? "oculto" : "visible";
+      const enl = v.urlYouTube ? "con enlace" : "sin enlace";
+      return [v.titulo, v.duracion].filter(Boolean).join(" — ") + ` (${enl}, ${estado})`;
+    }
+
+    function renderVideos() {
+      if (!videos) return;
+      $("vid-lista").innerHTML = videos.map((v, i) => `
+        <div class="flex items-center justify-between gap-4 rounded-2xl border p-4" style="border-color:var(--hair)">
+          <div class="min-w-0 flex items-center gap-2">
+            <span class="chip shrink-0">${v.oculto ? "oculto" : "visible"}</span>
+            <span class="text-[14px] truncate">${esc(resumenVid(v))}</span>
+          </div>
+          <div class="flex gap-1 shrink-0">
+            <button data-vid-edit="${i}" class="btn-panel btn-sec !text-[12px]">Editar</button>
+            <button data-vid-subir="${i}" class="btn-panel btn-sec !text-[12px]">↑</button>
+            <button data-vid-bajar="${i}" class="btn-panel btn-sec !text-[12px]">↓</button>
+            <button data-vid-borrar="${i}" class="btn-panel btn-sec !text-[12px] !text-rose-600">Borrar</button>
+          </div>
+        </div>`).join("") || '<p class="text-muted text-[14px]">No hay videos todavía.</p>';
+    }
+
+    function abrirEditorVid(i) {
+      if (!videos) return;
+      vidEditando = i;
+      const v = videos[i];
+      const ed = $("vid-editor");
+      const cats = (v.categoria || "").split(/\s+/).filter(Boolean);
+      const campo = (l, k, tipo) => tipo === "area"
+        ? `<label class="text-[13px] text-muted block mt-3">${l}</label><textarea class="campo" rows="3" data-k="${k}">${esc(v[k] || "")}</textarea>`
+        : `<label class="text-[13px] text-muted block mt-3">${l}</label><input class="campo" data-k="${k}" value="${esc(v[k] || "")}">`;
+      ed.innerHTML = `
+        ${campo("Título", "titulo")}
+        ${campo("Descripción (texto debajo del título)", "descripcion", "area")}
+        ${campo("Enlace de YouTube (ej.: https://youtu.be/…)", "urlYouTube")}
+        ${campo("Duración (texto libre, ej.: 18:24)", "duracion")}
+        <label class="text-[13px] text-muted block mt-3">Categoría/s (enlaza con los filtros de la página)</label>
+        <div class="flex flex-wrap gap-3 mt-1">
+          ${CATS_VID.map(c => `<label class="flex items-center gap-1 text-[14px]"><input type="checkbox" data-cat="${c}" ${cats.includes(c) ? "checked" : ""}> ${c}</label>`).join("")}
+        </div>
+        <label class="flex items-center gap-2 text-[14px] mt-4"><input type="checkbox" id="vid-oculto" ${v.oculto ? "checked" : ""}> Ocultar del sitio</label>
+        <div class="flex gap-2 mt-4">
+          <button id="vid-ok" class="btn-panel btn-prim">Listo</button>
+          <button id="vid-cancel" class="btn-panel btn-sec">Cancelar</button>
+        </div>`;
+      ed.classList.remove("hidden");
+      ed.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      $("vid-cancel").addEventListener("click", cerrarEditorVid);
+      $("vid-ok").addEventListener("click", () => {
+        const v2 = videos[vidEditando];
+        ed.querySelectorAll("[data-k]").forEach(inp => { v2[inp.dataset.k] = inp.value.trim(); });
+        const cats2 = CATS_VID.filter(c => ed.querySelector(`[data-cat="${c}"]`).checked);
+        v2.categoria = cats2.join(" ");
+        v2.oculto = $("vid-oculto").checked;
+        cerrarEditorVid();
+        renderVideos();
+      });
+    }
+
+    function moverVid(i, d) {
+      if (!videos) return;
+      const j = i + d;
+      if (j < 0 || j >= videos.length) return;
+      [videos[i], videos[j]] = [videos[j], videos[i]];
+      renderVideos();
+    }
+
+    $("vid-lista").addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.vidEdit !== undefined) abrirEditorVid(parseInt(b.dataset.vidEdit, 10));
+      if (b.dataset.vidSubir !== undefined) moverVid(parseInt(b.dataset.vidSubir, 10), -1);
+      if (b.dataset.vidBajar !== undefined) moverVid(parseInt(b.dataset.vidBajar, 10), +1);
+      if (b.dataset.vidBorrar !== undefined && confirm("¿Sacar este video de la lista? (se aplica al apretar Guardar cambios)")) {
+        videos.splice(parseInt(b.dataset.vidBorrar, 10), 1);
+        cerrarEditorVid();
+        renderVideos();
+      }
+    });
+
+    $("btn-vid-nueva").addEventListener("click", () => {
+      if (!videos) videos = [];
+      videos.push({ titulo: "", descripcion: "", urlYouTube: "", categoria: "familia", duracion: "", oculto: false });
+      abrirEditorVid(videos.length - 1);
+    });
+
+    $("btn-vid-guardar").addEventListener("click", async () => {
+      $("btn-vid-guardar").disabled = true;
+      $("vid-estado").textContent = "Guardando…";
+      try {
+        await api("/videos", { method: "POST", body: JSON.stringify({ videos }) });
+        $("vid-estado").textContent = "Guardado ✓ Se ve en el sitio en un par de minutos.";
+      } catch (err) {
+        if (err.message !== "sesion") $("vid-estado").textContent = "Error al guardar.";
+      }
+      $("btn-vid-guardar").disabled = false;
     });
 
     if (token) { api("/posts").then(cargarLista).catch(() => mostrar("vista-login")); }
