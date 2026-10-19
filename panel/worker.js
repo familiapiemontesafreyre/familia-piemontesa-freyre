@@ -2,6 +2,7 @@ const OWNER = "familiapiemontesafreyre";
 const REPO = "familia-piemontesa-freyre";
 const PATH_JSON = "blog/posts.json";
 const PATH_ALBUM = "content/album.json";
+const PATH_VIDEOS = "content/videos.json";
 const BRANCH = "main";
 
 function b64u(buf) {
@@ -237,6 +238,34 @@ async function manejarAlbum(request, env) {
   return ok ? jsonResp({ ok: true }) : jsonResp({ error: "commit_fallido" }, 500);
 }
 
+async function manejarVideos(request, env) {
+  if (request.method === "GET") {
+    try {
+      const { data } = await ghGetMetaYContenido(env, PATH_VIDEOS);
+      return jsonResp(data && data.videos ? data : { videos: [] });
+    } catch (e) {
+      return jsonResp({ error: "no_se_pudo_leer_videos", detalle: String(e && e.message) }, 500);
+    }
+  }
+
+  const token = await verificar((request.headers.get("authorization") || "").replace("Bearer ", ""), env.TOKEN_SECRET);
+  if (!token) return jsonResp({ error: "sesion_invalida" }, 401);
+
+  let cuerpo;
+  try { cuerpo = await request.json(); }
+  catch (e) { return jsonResp({ error: "cuerpo_invalido" }, 400); }
+  if (!cuerpo || !Array.isArray(cuerpo.videos))
+    return jsonResp({ error: "formato_invalido" }, 400);
+
+  let sha;
+  try {
+    const meta = await ghGetMetaYContenido(env, PATH_VIDEOS);
+    sha = meta.sha;
+  } catch (e) { sha = undefined; }
+  const ok = await ghPutContenido(env, PATH_VIDEOS, cuerpo, sha, `panel: videos actualizados (${new Date().toISOString().slice(0, 10)})`);
+  return ok ? jsonResp({ ok: true }) : jsonResp({ error: "commit_fallido" }, 500);
+}
+
 const app = {
   async fetch(request, env) {
     if (request.method === "OPTIONS") return new Response(null, { headers: { "access-control-allow-origin": "*", "access-control-allow-methods": "GET,POST,OPTIONS", "access-control-allow-headers": "authorization,content-type" } });
@@ -247,6 +276,7 @@ const app = {
     if (ruta === "/posts") return manejarPosts(request, env);
     if (ruta === "/imagenes") return manejarImagenes(request, env);
     if (ruta === "/album") return manejarAlbum(request, env);
+    if (ruta === "/videos") return manejarVideos(request, env);
     if (ruta === "/login" && request.method === "POST") {
       const { user, pass } = await request.json();
       if (user !== env.PANEL_USER || pass !== env.PANEL_PASS) return jsonResp({ error: "credenciales_invalidas" }, 401);
